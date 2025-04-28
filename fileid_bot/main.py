@@ -1,15 +1,18 @@
 from telegram import Update
-from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
+from telegram.ext import Application, MessageHandler, filters, ContextTypes
 
-async def get_file_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
+BOT_TOKEN = "7685810612:AAEZLD5N7ILobZ2yQ-ZPi5TyAsGwHzkvWl8"
+
+async def catch_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message.photo:
-        photo = update.message.photo[-1]  # highest quality photo
-        await update.message.reply_text(f"Here is the file_id:\n{photo.file_id}")
-    else:
-        await update.message.reply_text("No photo found!")
+        photo = update.message.photo[-1]
+        await update.message.reply_text(f"Here is your file_id:\n\n{photo.file_id}")
 
-app = ApplicationBuilder().token("7685810612:AAEZLD5N7ILobZ2yQ-ZPi5TyAsGwHzkvWl8").build()
+async def main():
+    app = Application.builder().token(BOT_TOKEN).build()
+    app.add_handler(MessageHandler(filters.PHOTO, catch_photo))
+    await app.run_polling()
 
-app.add_handler(MessageHandler(filters.PHOTO, get_file_id))
-
-app.run_polling()
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(main())
