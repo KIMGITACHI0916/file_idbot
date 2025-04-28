@@ -1,7 +1,8 @@
+import os
 from telegram import Update
 from telegram.ext import Application, MessageHandler, filters, ContextTypes
 
-BOT_TOKEN = "7685810612:AAEZLD5N7ILobZ2yQ-ZPi5TyAsGwHzkvWl8"
+BOT_TOKEN = os.environ.get("7685810612:AAEZLD5N7ILobZ2yQ-ZPi5TyAsGwHzkvWl8")
 
 async def catch_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message.photo:
